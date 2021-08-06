@@ -1,8 +1,8 @@
-export default class GiphyService {  
-  static getGiphy(search) {
+export default class GiphyRandomService {  
+  static getRandomGiphy() {
     return new Promise(function(resolve, reject) {
       let request = new XMLHttpRequest();
-      const url = `https://api.giphy.com/v1/stickers/search?q=${search}&api_key=${process.env.API_KEY}&limit=25&offset=0&rating=g&lang=en`;
+      const url = `https://api.giphy.com/v1/stickers/random?&api_key=${process.env.API_KEY}&tag=baby&rating=g`;
       request.onload = function() {
         if (this.status === 200) {
           resolve(request.response);

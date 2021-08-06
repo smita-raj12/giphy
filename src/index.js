@@ -3,25 +3,37 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import GiphyService from './giphy-services.js';
+import GiphyRandomService from './giphy-random.js';
 
 function clearFields() {
-  $('#location').val("");
-  $('.showErrors').text("");
-  $('.showHumidity').text("");
-  $('.showTemp').text("");
+  $('#search').val("");
+  
 }
 
 $(document).ready(function() {
-  $('#weatherLocation').click(function() {
-    let city = $('#location').val();
+  $('#Giphysearch').click(function() {
+    
+    let search = $('#search').val();
     clearFields();
-    let promise = GiphyService.getGiphy(city);
+    let promise = GiphyService.getGiphy(search);
     promise.then(function(response) {
       const body = JSON.parse(response);
-      $('.showHumidity').text(`The humidity in ${city} is ${body.main.humidity}%`);
-      $('.showTemp').text(`The temperature in Kelvins is ${body.main.temp} degrees.`);
+      const giphylink=body.data[0].images.original.url;
+      $('.showgiphy').attr("src",giphylink);
+      
     }, function(error) {
-      $('.showErrors').text(`There was an error processing your request: ${error}`);
+      $('.showErrors').text(`there was a error to show your image:${error}`);
     });
   });
+  $('#GiphyRandom').click(function() {
+    let promiseRandom = GiphyRandomService.getRandomGiphy();
+    promiseRandom.then(function(response){
+      const body = JSON.parse(response);
+     
+      $('.showRandom').attr("src",body.data.images.original.url);
+    },function(error){
+      $('.showErrors').text(`there was a error to show your image:${error}`);
+    });
+
+  });  
 });
